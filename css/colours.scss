@@ -1,0 +1,17 @@
+// Main colours
+$blue:    #00bceb;
+$indigo:  #0d274d;
+$red:     #e2231a;
+$green:   #6abf4b;
+$orange:  #fbab18;
+$teal:    #1e4471;
+
+$info: $teal;
+
+// Derivatives
+
+$light-blue: lighten($blue, 35%);
+$very-light-blue: lighten($blue, 50%);
+$light-green: lighten($green, 25%);
+$very-light-green: lighten($green, 45%);
+$lightish-green: lighten($green, 20%);

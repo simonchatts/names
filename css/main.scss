@@ -1,0 +1,52 @@
+// Main ("App") component styling
+
+// Navbar logo
+div.navbar {
+    margin-bottom: 1.5rem;
+    img { height: 32px; }
+}
+
+// Errors
+.errors {
+    margin-top: 0.5rem;
+}
+
+// Instructions
+h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.7rem;
+}
+.arrow {
+    position: relative;
+    top: 0.5rem;
+    margin-right: 0.3rem;
+}
+
+// Main area
+main {
+    display: flex;
+}
+
+// Textarea
+textarea {
+    margin-right: 2rem;
+}
+#hidden-textarea {
+    // From https://stackoverflow.com/questions/51681669/how-can-i-copy-text-from-hidden-textarea-to-clipboard
+    opacity: .01;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+// Copy button
+.copy-button {
+    float: right;
+}
+
+.copy-label {
+    color: $green;
+    font-weight: 100;
+    margin-right: 1rem;
+    font-size: 80%;
+}

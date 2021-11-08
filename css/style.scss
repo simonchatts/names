@@ -1,0 +1,16 @@
+// Colours
+@import "colours.scss";
+
+// Font
+@import "cisco_sans.scss";
+$font-family-sans-serif: CiscoSans;
+$headings-font-weight: 100;
+
+// Bootstrap
+@import "bootstrap-4.6.0/bootstrap.scss";
+
+// Styling for each area
+@import "main.scss";
+@import "confidence.scss";
+@import "country.scss";
+@import "footnote.scss";

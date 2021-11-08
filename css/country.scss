@@ -1,0 +1,29 @@
+// Country summary
+.countries {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 100;
+
+    .country {
+        // Basic formatting
+        width: 100%;
+        text-align: center;
+
+        // Try to behave nicely, but unclear this does much
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        // Lines between entries
+        border-left: solid 1px $lightish-green;
+        &:first-child {
+            border-left: solid 1px white;
+        }
+    }
+    // For bar chart for countries, use a light green colour scheme, with number
+    // left-aligned with left margin.
+    .confidence {
+        background-color: $very-light-green;
+        color: $light-green;
+        text-align: left;
+    }
+}
