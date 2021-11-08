@@ -1,0 +1,8 @@
+[build]
+# Needed to access the unstable Clipboard feature in web-sys
+# (see https://docs.rs/web-sys/latest/web_sys/struct.Clipboard.html)
+rustflags = "--cfg=web_sys_unstable_apis"
+
+# If we're specifying rustflags, then this seems necessary to avoid trunk
+# re-building the world on every change.
+target = "wasm32-unknown-unknown"

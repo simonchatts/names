@@ -1,0 +1,18 @@
+// The mini bar chart representing confidence probability - by default, light
+// blue colour scheme, with number right-aligned with end of bar, but this is
+// overridden for country data.
+.confidence {
+    // Bar itself
+    background-color: $very-light-blue;
+    display: relative;
+    height: 23px;
+    margin-bottom: -23px;
+
+    // Text for percentage
+    text-align: right;
+    color: $light-blue;
+    font-size: 80%;
+    font-weight: 100;
+    padding-top: 2px;
+    padding-right: 2px;
+}

@@ -1,0 +1,43 @@
+// Make all Cisco Sans fonts available using the weights below. Italic
+// variants are supported, but bold is supported only for regular weight.
+//
+// Simon, Jan 2019
+
+// Weights used
+
+$cs_thin: 100;
+$cs_extra_light: 200;
+$cs_light: 300;
+// normal:    400;
+// bold:      700;
+$cs_heavy: 900;
+
+// Generic mixin
+@mixin cs_font_face($family, $path, $weight, $style) {
+  @font-face {
+    font-family: $family;
+    font-style: $style;
+    font-weight: $weight;
+
+    src: url('#{$path}.woff') format('woff'),
+    // legacy standards
+    url('#{$path}.woff2') format('woff2'),
+    // modern standards
+    url('#{$path}.ttf') format('truetype'),
+    // Safari, Android, iOS
+  }
+}
+
+// Cisco Sans specific mixin
+@mixin cisco_sans_face($variant, $weight: normal) {
+  @include cs_font_face(CiscoSans, '/cisco-sans/CiscoSansTT#{$variant}', $weight, normal);
+  @include cs_font_face(CiscoSans, '/cisco-sans/CiscoSansTT#{$variant}Oblique', $weight, italic);
+}
+
+// Define all the fonts
+@include cisco_sans_face(Regular);
+@include cisco_sans_face(Bold, bold);
+@include cisco_sans_face(Heavy, $cs_heavy);
+@include cisco_sans_face(Light, $cs_light);
+@include cisco_sans_face(ExtraLight, $cs_extra_light);
+@include cisco_sans_face(Thin, $cs_thin);

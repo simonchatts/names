@@ -1,0 +1,38 @@
+[package]
+name = "names"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+console_error_panic_hook = "0.1"
+dioxus = { version = "0.2", features = [ "fermi", "web" ] }
+futures = "0.3"
+gloo = { version = "0.4", features = ["futures"] }
+im-rc = "15.0"
+kstring = "1"
+phf = { version = "0.10", features = ["macros"] }
+reqwasm = "0.2"
+serde = { version = "1", features = [ "derive", "rc" ] }
+thiserror = "1"
+tracing = "0.1"
+tracing-wasm = { git = "https://github.com/simonchatts/tracing-wasm" }
+unidecode = "0.3"
+urlencoding = "2.1"
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = [ "Clipboard", "Navigator" ]}
+wee_alloc = "0.4"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+# These typically shave over a quarter of the size off the generated .wasm file
+# (originally taken from https://yew.rs/next/advanced-topics/optimizations)
+[profile.release]
+# optimization over all codebase (better optimization, slower build)
+codegen-units = 1
+# optimization for size (more aggressive than just 's')
+opt-level = 'z'
+# link time optimization using using whole-program analysis
+lto = true
