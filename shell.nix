@@ -15,9 +15,10 @@ let
       "rust-src"
     ];
     targets = [
-      "x86_64-apple-darwin"      # Native build on macOS
+      "aarch64-apple-darwin" # Native build on macOS arm
+      "x86_64-apple-darwin" # Native build on macOS x86
       "x86_64-unknown-linux-gnu" # Native build on linux
-      "wasm32-unknown-unknown"   # WASM cross-build
+      "wasm32-unknown-unknown" # WASM cross-build
     ];
   };
 

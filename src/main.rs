@@ -1,7 +1,8 @@
 //! App presenting a simple UI around genderize.io and nationalize.io
+#![warn(unused_crate_dependencies, rust_2018_idioms, missing_docs, unused)]
 
 #[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+static ALLOC: wee_alloc::WeeAlloc<'_> = wee_alloc::WeeAlloc::INIT;
 
 use gloo::timers::callback::Timeout;
 use kstring::KString;

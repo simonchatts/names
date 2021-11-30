@@ -80,7 +80,7 @@ impl Db {
 /// with either the success or failure result.
 fn spawn_api_request<T: Clone>(
     names_to_query: Rc<Vec<Name>>,
-    fetch: impl Fn(&[Name]) -> LocalBoxFuture<ApiResult<T>> + 'static,
+    fetch: impl Fn(&[Name]) -> LocalBoxFuture<'_, ApiResult<T>> + 'static,
     selector: fn(&ApiValue) -> &Signal<Remote<T>>,
     db: Db,
     error_chan: MpscChannel<ErrMsg>,
