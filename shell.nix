@@ -2,7 +2,7 @@ let
   # Set up a pinned environment based on rust-nightly, which is required for WASM.
   #
   # niv manages the pinning of nixpkgs and the mozilla overlay, with the exception of:
-  pinned-date = { date = "2021-10-20"; channel = "nightly"; };
+  pinned-date = { date = "2021-11-30"; channel = "nightly"; };
 
   sources = import ./nix/sources.nix;
   mozilla-overlay = import sources.nixpkgs-mozilla;
