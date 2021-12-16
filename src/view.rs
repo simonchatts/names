@@ -15,18 +15,18 @@ const CERTAIN_THRESHOLD: f32 = 85.0;
 const PROBABLE_THRESHOLD: f32 = 75.0;
 
 /// Top-level render function
-pub fn render<G: GenericNode>(
+pub fn render<G: Html>(
     db: Db,
     error_chan: MpscChannel<ErrMsg>,
-    names: StateHandle<Vec<Name>>,
+    names: ReadSignal<Vec<Name>>,
     ta_value: Signal<String>,
     hidden_ta: NodeRef<G>,
-    copied_label: StateHandle<Option<u32>>,
-    copy_button_disabled: StateHandle<bool>,
+    copied_label: ReadSignal<Option<u32>>,
+    copy_button_disabled: ReadSignal<bool>,
     copy_mf_col: impl Fn(web_sys::Event) + 'static,
-) -> Template<G> {
+) -> View<G> {
     // View
-    template! {
+    view! {
         div(class="container-xl") {
             div(class="navbar navbar-dark bg-info") {
                 div(class="container-fluid") {
@@ -38,13 +38,13 @@ pub fn render<G: GenericNode>(
             Errors(error_chan)
             div(class="copy-button") {
                 (if let Some(num_rows) = *copied_label.get() {
-                    template! {
+                    view! {
                         span(class="copy-label") {(
                             format!("✓ Copied {} rows to clipboard", num_rows)
                         )}
                     }
                 } else {
-                    template! {}
+                    view! {}
                 })
                 button(class="btn btn-outline-primary btn-sm",
                        disabled=*copy_button_disabled.get(),
@@ -109,18 +109,18 @@ impl crate::api::GenderResult {
 }
 
 /// View for one row of the results table
-fn table_row<G: GenericNode>(name: Name, db: Db) -> Template<G> {
+fn table_row<G: Html>(name: Name, db: Db) -> View<G> {
     let db = db.0.borrow();
     let api_value = db.get(&name).unwrap();
     let gender = api_value.gender.clone();
     let country = api_value.country.clone();
-    template! {
+    view! {
         tr {
             td {( name )}
                 (gender.get().as_ref().render(|r| {
                 let prob = r.probability;
                 let label = r.summarised();
-                template! {
+                view! {
                     td {
                         ( confidence_bar(prob) )
                         ( label )
@@ -128,17 +128,17 @@ fn table_row<G: GenericNode>(name: Name, db: Db) -> Template<G> {
                 }
             }))
             (country.get().as_ref().render(|v| {
-                let spans = Template::new_fragment(v.iter().map(|c| {
+                let spans = View::new_fragment(v.iter().map(|c| {
                     let country = iso3166::lookup(&c.country).unwrap_or(&c.country).to_owned();
                     let prob = c.probability;
-                    template! {
+                    view! {
                         div(class="country") {
                             ( confidence_bar(prob) )
                             ( country )
                         }
                     }
                 }).collect());
-                template! {
+                view! {
                     td {
                         div(class="countries") {( spans )}
                     }
@@ -149,9 +149,9 @@ fn table_row<G: GenericNode>(name: Name, db: Db) -> Template<G> {
 }
 
 /// Render a confidence/probability bar.
-fn confidence_bar<G: GenericNode>(probability: f32) -> Template<G> {
+fn confidence_bar<G: Html>(probability: f32) -> View<G> {
     let prob = f32::round(probability * 100.0) as u8;
-    template! {
+    view! {
         div(class="confidence", style=format!("width: {}%", prob)) {(
             if prob > 0 {
                 format!("{}%", prob)
@@ -163,9 +163,9 @@ fn confidence_bar<G: GenericNode>(probability: f32) -> Template<G> {
 
 impl<T: Clone> Remote<T> {
     /// Render a [Remote] value.
-    fn render<G: GenericNode>(&self, render: impl Fn(&T) -> Template<G>) -> Template<G> {
+    fn render<G: Html>(&self, render: impl Fn(&T) -> View<G>) -> View<G> {
         match self {
-            Remote::Loading => template! {
+            Remote::Loading => view! {
                 td {
                     div(class="progress") {
                         div(class="progress-bar progress-bar-striped progress-bar-animated",
@@ -173,7 +173,7 @@ impl<T: Clone> Remote<T> {
                     }
                 }
             },
-            Remote::Error => template! {
+            Remote::Error => view! {
                 td {
                     span(class="badge badge-pill badge-danger px-5 py-1") {
                         "⚠ Error"

@@ -19,7 +19,7 @@ const AUTO_REMOVAL_TIME: u32 = 10_000;
 /// Component to display any app-global errors. They can be removed either with
 /// a click, or otherwise automatically disappear after [AUTO_REMOVAL_TIME].
 #[component(Errors<G>)]
-pub fn errors(error_chan: MpscChannel<ErrMsg>) -> Template<G> {
+pub fn errors(error_chan: MpscChannel<ErrMsg>) -> View<G> {
     // The internal data structure is a [BTreeMap] from [Id]s to [ErrMsg]s. The
     // [Id] enables individual error messages to be deleted, and using a
     // [BTreeMap] rather than a HashMap means that iterating the structure
@@ -55,13 +55,13 @@ pub fn errors(error_chan: MpscChannel<ErrMsg>) -> Template<G> {
     });
 
     // View
-    template! {
+    view! {
         div(class="errors") {(
-            Template::new_fragment({
+            View::new_fragment({
                 errs.get().borrow().iter()
                     .map(|(&id, msg)| {
                         clone_all!(removals, msg);
-                        template! {
+                        view! {
                             div(class="alert alert-danger") {
                                 ( msg )
                                 button(class="close", on:click=move |_| removals.send(id))

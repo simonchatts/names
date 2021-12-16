@@ -29,7 +29,7 @@ const IGNORED_NAME: &str = "First";
 
 /// Main app component
 #[component(App<G>)]
-fn app() -> Template<G> {
+fn app() -> View<G> {
     let ta_value: Signal<String> = Default::default();
     let hidden_ta: NodeRef<G> = Default::default();
     let names: Signal<Vec<Name>> = Default::default();
@@ -124,7 +124,7 @@ fn normalise_name(name: &str) -> Name {
 /// Assemble a plain text version of the M/F column, and copy it to the
 /// clipboard, ready for pasting into an Excel column. The copy goes via a
 /// hidden textarea.
-fn copy_mf_column<G: GenericNode>(
+fn copy_mf_column<G: Html>(
     hidden_ta: NodeRef<G>,
     names: &[Name],
     db: Db,
@@ -171,5 +171,5 @@ pub fn main() {
     console_error_panic_hook::set_once();
     console_log::init_with_level(log::Level::Debug).unwrap();
 
-    sycamore::render(|| template! { App() });
+    sycamore::render(|| view! { App() });
 }
