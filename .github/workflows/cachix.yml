@@ -1,0 +1,17 @@
+name: "Cachix"
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - uses: cachix/install-nix-action@v16
+    - uses: cachix/cachix-action@v10
+      with:
+        name: simonchatts
+        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+    - run: nix flake check
+    - run: nix develop --command sh -c "echo nix develop OK"

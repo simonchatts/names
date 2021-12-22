@@ -1,0 +1,24 @@
+name: "CI"
+on: [push, pull_request]
+jobs:
+  # This is reduced to just clippy, since "nix flake check" in cachix.yml
+  # actually does all the other CI checks.
+  #
+  # Clippy is done in a special way to use the additional features of
+  # nightly, but without failing when those aren't available - see
+  # https://github.com/actions-rs/meta/blob/master/recipes/nightly-lints.md
+  clippy:
+    name: clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: clippy
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings

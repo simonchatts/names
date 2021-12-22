@@ -3,7 +3,7 @@
 # Deploy to Netlify - commit artefacts to a clean branch, and force-push to GitHub
 
 # Check for running trunk, which can mess up git when switching branches
-if ps x | grep '\./trun[k]' > /dev/null; then
+if ps x | grep 'trun[k]' > /dev/null; then
   echo !!! Trunk watcher running - please kill it first !!!
   exit 1
 fi
@@ -26,4 +26,3 @@ git push git@github.com:simonchatts/names deploy --force
 # Restore dev environment
 git checkout main
 echo Done
-

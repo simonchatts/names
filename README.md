@@ -1,4 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2f77aa1d-2993-420f-9a98-4c462e2cf5a2/deploy-status)](https://app.netlify.com/sites/quizzical-poincare-8a9bc0/deploys)
+![CI checks](https://github.com/simonchatts/names/workflows/CI/badge.svg)
+![Cachix binaries](https://github.com/simonchatts/names/workflows/Cachix/badge.svg)
 
 # Guess nationality and gender from first name
 
@@ -22,9 +24,10 @@ address).
 ## Development
 
 For interactive development, use
-[nix-shell](https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html)
+[nix-shell](https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html) or
+[nix develop](https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-develop.html)
 (optionally using [direnv](https://direnv.net)) and then run `trunk serve`.
 
 ## Deployment
 
-Run the `deploy` script to deploy to netlify.
+Run the `deploy` script from a nix shell to deploy to netlify.

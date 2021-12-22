@@ -1,47 +1,11 @@
+# Backwards-compatible shell.nix from flake devShell
 let
-  # Set up a pinned environment based on rust-nightly, which is required for WASM.
-  #
-  # niv manages the pinning of nixpkgs and the mozilla overlay, with the exception of:
-  pinned-date = { date = "2021-11-30"; channel = "nightly"; };
-
-  sources = import ./nix/sources.nix;
-  mozilla-overlay = import sources.nixpkgs-mozilla;
-  pkgs = import sources.nixpkgs { overlays = [ mozilla-overlay ]; };
-  nightly-rust = (pkgs.rustChannelOf pinned-date).rust.override {
-    extensions = [
-      "clippy-preview"
-      "rust-analyzer-preview"
-      "rustfmt-preview"
-      "rust-src"
-    ];
-    targets = [
-      "aarch64-apple-darwin" # Native build on macOS arm
-      "x86_64-apple-darwin" # Native build on macOS x86
-      "x86_64-unknown-linux-gnu" # Native build on linux
-      "wasm32-unknown-unknown" # WASM cross-build
-    ];
-  };
-
+  lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+  flake-compat =
+    fetchTarball {
+      url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
+      sha256 = lock.nodes.flake-compat.locked.narHash;
+    };
+  compat = import flake-compat { src = ./.; };
 in
-with pkgs;
-mkShell {
-
-  # Build-time dependencies
-  nativeBuildInputs = [
-
-    # Other stuff
-    bacon
-    trunk
-
-    # Nightly Rust toolchain
-    nightly-rust
-
-    # Necessary dependencies
-    libiconv
-
-  ] ++ lib.optionals stdenv.isx86_64 [
-    # Interactive development stuff that doesn't always build on ARM, where
-    # we just need a deployment target.
-    wasm-bindgen-cli
-  ];
-}
+compat.shellNix

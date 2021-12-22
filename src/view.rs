@@ -1,4 +1,5 @@
 //! Everything that is pure presentation / visuals
+#![allow(clippy::useless_format, clippy::too_many_arguments)]
 
 use sycamore::prelude::*;
 
