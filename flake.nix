@@ -1,10 +1,12 @@
 # names flake
 {
   description = "Guess nationality and gender from first name";
-  outputs = { self, nixpkgs, flake-lib, fenix }:
+  outputs = { self, nixpkgs, fenix }:
     let
       # Use rust nightly with wasm32 support
-      flib = flake-lib.outputs;
+      flib =
+        # Cheesy using local flake as library (doesn't use it's own self)
+        ((import ./flake-lib.nix).outputs { inherit nixpkgs self; }).lib;
       forAllSystems = flib.forAllSystemsWith [ fenix.overlay ];
       rustToolchain = pkgs: flib.nightlyRustWithWasm pkgs;
       checkFormatting = flib.checkRustFormatWith rustToolchain ./.;
@@ -33,7 +35,5 @@
   inputs = {
     fenix.url = "github:nix-community/fenix";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
-    flake-lib.url = "git+ssh://git@github.com/simonchatts/flake-lib?ref=main";
-    flake-lib.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
